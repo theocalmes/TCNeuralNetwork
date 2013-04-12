@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Theodore Calmes. All rights reserved.
 //
 
+@class TCTheta;
+
 @interface TCTheta : NSObject <NSCoding>
 
 @property (assign, readonly, nonatomic) float **weights;
