@@ -6,7 +6,8 @@
 //  Copyright (c) 2013 Theodore Calmes. All rights reserved.
 //
 
-@class TCTheta;
+#import <Foundation/Foundation.h>
+#import "TCStructs.h"
 
 @interface TCTheta : NSObject <NSCoding>
 

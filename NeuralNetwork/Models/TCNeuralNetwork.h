@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Theodore Calmes. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class TCTheta;
 @class TCNeuralNetwork;
 
