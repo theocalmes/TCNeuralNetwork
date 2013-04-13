@@ -27,6 +27,8 @@
 		E4AC2F211718808200587148 /* TCStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStructs.h; sourceTree = "<group>"; };
 		E4AC2F241718809200587148 /* NeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralNetwork.h; sourceTree = "<group>"; };
 		E4AC2F251718814900587148 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		E4AC2F9B1718D55F00587148 /* TCNeuralNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCNeuralNetworkDelegate.h; path = Protocols/TCNeuralNetworkDelegate.h; sourceTree = "<group>"; };
+		E4AC2F9D1718D61A00587148 /* TCNeuralNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCNeuralNetworkTrainingDelegate.h; path = Protocols/TCNeuralNetworkTrainingDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				E4AC2F241718809200587148 /* NeuralNetwork.h */,
 				E4AC2F1B1718808200587148 /* Models */,
 				E4AC2F201718808200587148 /* Structs */,
+				E4AC2F9C1718D56D00587148 /* Protocols */,
 			);
 			path = NeuralNetwork;
 			sourceTree = "<group>";
@@ -99,6 +102,15 @@
 				E4AC2F211718808200587148 /* TCStructs.h */,
 			);
 			path = Structs;
+			sourceTree = "<group>";
+		};
+		E4AC2F9C1718D56D00587148 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E4AC2F9B1718D55F00587148 /* TCNeuralNetworkDelegate.h */,
+				E4AC2F9D1718D61A00587148 /* TCNeuralNetworkTrainingDelegate.h */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

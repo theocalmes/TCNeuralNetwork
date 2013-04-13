@@ -10,3 +10,5 @@
 #import "TCStructs.h"
 #import "TCNeuralNetwork.h"
 #import "TCTheta.h"
+#import "TCNeuralNetworkDelegate.h"
+#import "TCNeuralNetworkTrainingDelegate.h"

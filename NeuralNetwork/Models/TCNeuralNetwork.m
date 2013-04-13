@@ -136,9 +136,6 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
 
 - (void)setupNetwork
 {
-    if ([self.delegate respondsToSelector:@selector(regularizationParameterForNeuralNetwork:)])
-        lambda = [self.delegate regularizationParameterForNeuralNetwork:self];
-
     if ([self.delegate respondsToSelector:@selector(weightsForNeuralNetwork:)]) {
         TCTheta *temp = [self.delegate weightsForNeuralNetwork:self];
         if (temp) {
@@ -156,6 +153,9 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
     y = [self.trainingDelegate trainingOutputExamplesForNeuralNetwork:self];
 
     m = [self.trainingDelegate numberOfTrainingExamplesForNeuralNetwork:self];
+
+    if ([self.trainingDelegate respondsToSelector:@selector(regularizationParameterForNeuralNetwork:)])
+        lambda = [self.trainingDelegate regularizationParameterForNeuralNetwork:self];
 
     if ([self.trainingDelegate respondsToSelector:@selector(maxIterationsForNeuralNetwork:)])
         maxIterations = [self.trainingDelegate maxIterationsForNeuralNetwork:self];
@@ -219,7 +219,7 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
 
     for (int n=0; n<m; n++) {
 
-        /*********** Forward Propagate ******************/
+        // Forward Propagate
         float **a = (float **)calloc(L, sizeof(float *));
 
         a[0] = X[n];
@@ -227,14 +227,14 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
             a[l] = forwardPropagate(a[l-1], self.weights, l-1);
         }
 
-        /*********** Calculate Cost J ******************/
+        // Calculate Cost J
         NSInteger *temp = labelArray(y[n], numLabels);
 
         for (int k=0; k<numLabels; k++) {
             J += -temp[k]*logf(a[L-1][k]) - (1.0 - temp[k])*logf(1.0 - a[L-1][k]);
         }
 
-        /*********** Backpropagate ********************/
+        // Backpropagate
         float **delta = (float **)calloc(L-1, sizeof(float *));
 
         float *delta_L = (float *)calloc(numLabels, sizeof(float));
@@ -247,12 +247,12 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
             delta[l-1] = computeDelta(a[l], delta[l], self.weights, l);
         }
 
-        /********* Update Gradient ********************/
+        // Update Gradient
         for (int l=0; l<L-1; l++) {
             updateThetaGradient(&thetaGrad, l, a[l], delta[l]);
         }
 
-        /********* Free Memory ************************/
+        // Free memory
         for (int i=0; i<L; i++) {
             if (i != 0) {
                 free(a[i]);
@@ -266,7 +266,7 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
         free(temp);
     }
 
-    /************* Regularization of J *******************/
+    // Regularization of J
     float sum = 0.0;
     for (int l=0; l<L-1; l++) {
 
@@ -284,7 +284,7 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
     J *= (1.0/m);
     J += (lambda/(2.0*m)) * sum;
 
-    /************ Regularization of Theta Gradient *********/
+    // Regularization of Theta Gradient
     [thetaGrad mapToIndices:^(TCIndex index) {
 
         float value = [thetaGrad weightValueForIndex:index];

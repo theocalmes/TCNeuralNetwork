@@ -11,31 +11,8 @@
 @class TCTheta;
 @class TCNeuralNetwork;
 
-@protocol TCNeuralNetworkDelegate <NSObject>
-@optional
-- (float)regularizationParameterForNeuralNetwork:(TCNeuralNetwork *)network;
-- (TCTheta *)weightsForNeuralNetwork:(TCNeuralNetwork *)network;
-
-- (void)weightsDidLoadForNeuralNetwork:(TCNeuralNetwork *)network;
-
-@end
-
-@protocol TCNeuralNetworkTrainingDelegate <NSObject>
-@required
-- (NSInteger)numberOfTrainingExamplesForNeuralNetwork:(TCNeuralNetwork *)network;
-- (NSInteger *)trainingOutputExamplesForNeuralNetwork:(TCNeuralNetwork *)network;
-- (float **)trainingInputExamplesForNeuralNetwork:(TCNeuralNetwork *)network;
-
-@optional
-- (NSInteger)maxIterationsForNeuralNetwork:(TCNeuralNetwork *)network;
-- (float)stopEpsilonForNeuralNetwork:(TCNeuralNetwork *)network;
-- (float)learningParameterForNeuralNetwork:(TCNeuralNetwork *)network;
-
-- (void)neuralNetworkDidFinishTraining:(TCNeuralNetwork *)network;
-- (void)neuralNetworkDidFinishLoadingTrainingExamples:(TCNeuralNetwork *)network;
-- (void)neuralNetwork:(TCNeuralNetwork *)network didCompleteTrainingEpoch:(NSInteger)epoch withCost:(float)costValue;
-
-@end
+@protocol TCNeuralNetworkDelegate;
+@protocol TCNeuralNetworkTrainingDelegate;
 
 @interface TCNeuralNetwork : NSObject
 
