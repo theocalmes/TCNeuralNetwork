@@ -92,7 +92,7 @@
 /** Callback for when an individual step of gradient descent is completed.
  @param network An object representing the neural network request this information.
  @param epoch the total number of steps completed up till this point.
- @param cost the networks current cost value.
+ @param costValue the networks current cost value.
  */
 - (void)neuralNetwork:(TCNeuralNetwork *)network didCompleteTrainingEpoch:(NSInteger)epoch withCost:(float)costValue;
 
