@@ -1,6 +1,6 @@
 //
 //  TCNeuralNetwork.m
-//  NeuralNetworks_TEST
+//  NeuralNetwork
 //
 //  Created by Theodore Calmes on 11/18/12.
 //  Copyright (c) 2012 Theodore Calmes. All rights reserved.
@@ -88,10 +88,10 @@ void updateThetaGradient(TCTheta **theta, NSInteger l, float *al, float *deltaNe
     [*theta addMatrix:product toLayer:l];
 }
 
-NSInteger *labelArray(NSInteger label, NSInteger total)
+NSInteger *labelArray(float label, NSInteger total)
 {
     NSInteger *array = (NSInteger *)calloc(total, sizeof(NSInteger));
-    array[label] = 1;
+    array[(NSInteger)label] = 1;
     return array;
 }
 
@@ -102,7 +102,7 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
 @implementation TCNeuralNetwork
 {
     float **X;
-    NSInteger *y;
+    float *y;
 
     NSInteger m;
     NSInteger L;
@@ -188,7 +188,7 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
     [self gradientDescent];
 }
 
-- (NSInteger)classifyInput:(float *)input
+- (float)classifyInput:(float *)input
 {
     float **a = (float **)calloc(L, sizeof(float *));
     a[0] = input;
@@ -196,6 +196,16 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
         a[l] = forwardPropagate(a[l-1], self.weights, l-1);
     }
 
+    if (self.weights.layerUnits[L-1] == 1) {
+        float returnValue = a[L-1][0];
+        for (int i=1; i<L; i++) {
+            free(a[i]);
+        }
+        free(a)
+
+        return returnValue;
+    }
+    
     float max = -FLT_MAX;
     NSInteger maxIndex = 0;
 
@@ -206,6 +216,11 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
             maxIndex = k;
         }
     }
+
+    for (int i=1; i<L; i++) {
+        free(a[i]);
+    }
+    free(a)
 
     return maxIndex;
 }
@@ -228,10 +243,16 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
         }
 
         // Calculate Cost J
-        NSInteger *temp = labelArray(y[n], numLabels);
+        if (numLabels != 1) {
+            NSInteger *temp = labelArray(y[n], numLabels);
 
-        for (int k=0; k<numLabels; k++) {
-            J += -temp[k]*logf(a[L-1][k]) - (1.0 - temp[k])*logf(1.0 - a[L-1][k]);
+            for (int k=0; k<numLabels; k++) {
+                J += -temp[k]*logf(a[L-1][k]) - (1.0 - temp[k])*logf(1.0 - a[L-1][k]);
+            }
+            free(temp);
+        }
+        else {
+            J += -y[n]*logf(a[L-1][0]) - (1.0 - y[n])*logf(1.0 - a[L-1][0]);
         }
 
         // Backpropagate
@@ -263,7 +284,6 @@ NSInteger *labelArray(NSInteger label, NSInteger total)
         }
         free(delta);
         free(a);
-        free(temp);
     }
 
     // Regularization of J

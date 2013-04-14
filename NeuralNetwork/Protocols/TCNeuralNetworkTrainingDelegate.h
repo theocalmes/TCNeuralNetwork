@@ -30,14 +30,14 @@
 
 /** Asks the delegate for the set of output variables for all the training examples.
  
- These values are represented by an integer array where each integer represents a separate class i.e you are trying to do optical character recognition, 0 would map to A, 1 to B and so on.
+ If you are making a classifier (output size > 1) these values are represented by an float array where each float is casted to an integer value and represents a separate class i.e you are trying to do optical character recognition, 0 would map to A, 1 to B and so on. If you have just a single output neuron you can have this return an array of floats as is.
 
  @param network An object representing the neural network request this information.
- @return Integer array of size numberOfTrainingExamplesForNeuralNetwork:.
+ @return Float array of size numberOfTrainingExamplesForNeuralNetwork:.
  @see numberOfTrainingExamplesForNeuralNetwork:
  @see trainingInputExamplesForNeuralNetwork:
  */
-- (NSInteger *)trainingOutputExamplesForNeuralNetwork:(TCNeuralNetwork *)network;
+- (float *)trainingOutputExamplesForNeuralNetwork:(TCNeuralNetwork *)network;
 
 /** Asks the delegate for the set of features for all the training examples.
 

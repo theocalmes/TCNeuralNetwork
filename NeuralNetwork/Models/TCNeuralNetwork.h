@@ -16,12 +16,29 @@
 
 @interface TCNeuralNetwork : NSObject
 
+/** Conform to this delegate if you want to initialize your weights from a pre-trained source.
+ */
 @property (weak, nonatomic) id<TCNeuralNetworkDelegate> delegate;
+
+/** Conform to this delegate if you want to train a neural network.
+ */
 @property (weak, nonatomic) id<TCNeuralNetworkTrainingDelegate> trainingDelegate;
+
+/** This property holds the weights which define how your network has interpreted the set of training examples.
+ */
 @property (strong, readonly, nonatomic) TCTheta *weights;
 
+/** Initializer which takes in an array of NSNumber integers. Eeach number represents a layer in the network, you need to provide atleast two numbers.
+ @param neuronLayers This array represents the layers in your neural network. @[@100, @25, @10] would represent a network with 100 input units, 10 output units and 25 hidden layer units.
+ @return A TCNeuralNetwork object.
+ */
 - (id)initWithLayers:(NSArray *)neuronLayers;
-- (NSInteger)classifyInput:(float *)input;
+
+/** This method runs the input array through forward propagation to retrive a final output value.
+ @param input Is an array of feature variables.
+ @return The calculated output.
+ */
+- (float)classifyInput:(float *)input;
 
 - (void)loadDelegateData;
 - (void)trainNetwork;
