@@ -95,11 +95,11 @@ NSInteger *labelArray(float label, NSInteger total)
     return array;
 }
 
-@interface TCNeuralNetwork ()
+@interface TCFeedForwardNetwork ()
 @property (strong, readwrite, nonatomic) TCTheta *weights;
 @end
 
-@implementation TCNeuralNetwork
+@implementation TCFeedForwardNetwork
 {
     float **X;
     float *y;

@@ -10,7 +10,7 @@
 		E4AC2EFF1718800100587148 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AC2EFE1718800100587148 /* UIKit.framework */; };
 		E4AC2F011718800100587148 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AC2F001718800100587148 /* Foundation.framework */; };
 		E4AC2F031718800100587148 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AC2F021718800100587148 /* CoreGraphics.framework */; };
-		E4AC2F221718808200587148 /* TCNeuralNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AC2F1D1718808200587148 /* TCNeuralNetwork.m */; };
+		E4AC2F221718808200587148 /* TCFeedForwardNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AC2F1D1718808200587148 /* TCFeedForwardNetwork.m */; };
 		E4AC2F231718808200587148 /* TCTheta.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AC2F1F1718808200587148 /* TCTheta.m */; };
 		E4AC2F261718814900587148 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AC2F251718814900587148 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
@@ -20,15 +20,15 @@
 		E4AC2EFE1718800100587148 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E4AC2F001718800100587148 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4AC2F021718800100587148 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E4AC2F1C1718808200587148 /* TCNeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCNeuralNetwork.h; sourceTree = "<group>"; };
-		E4AC2F1D1718808200587148 /* TCNeuralNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCNeuralNetwork.m; sourceTree = "<group>"; };
+		E4AC2F1C1718808200587148 /* TCFeedForwardNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFeedForwardNetwork.h; sourceTree = "<group>"; };
+		E4AC2F1D1718808200587148 /* TCFeedForwardNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCFeedForwardNetwork.m; sourceTree = "<group>"; };
 		E4AC2F1E1718808200587148 /* TCTheta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTheta.h; sourceTree = "<group>"; };
 		E4AC2F1F1718808200587148 /* TCTheta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTheta.m; sourceTree = "<group>"; };
 		E4AC2F211718808200587148 /* TCStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStructs.h; sourceTree = "<group>"; };
 		E4AC2F241718809200587148 /* NeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralNetwork.h; sourceTree = "<group>"; };
 		E4AC2F251718814900587148 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		E4AC2F9B1718D55F00587148 /* TCNeuralNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCNeuralNetworkDelegate.h; path = Protocols/TCNeuralNetworkDelegate.h; sourceTree = "<group>"; };
-		E4AC2F9D1718D61A00587148 /* TCNeuralNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCNeuralNetworkTrainingDelegate.h; path = Protocols/TCNeuralNetworkTrainingDelegate.h; sourceTree = "<group>"; };
+		E4AC2F9B1718D55F00587148 /* TCFeedForwardNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCFeedForwardNetworkDelegate.h; path = Protocols/TCFeedForwardNetworkDelegate.h; sourceTree = "<group>"; };
+		E4AC2F9D1718D61A00587148 /* TCFeedForwardNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCFeedForwardNetworkTrainingDelegate.h; path = Protocols/TCFeedForwardNetworkTrainingDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +88,7 @@
 		E4AC2F1B1718808200587148 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E4AC2F1C1718808200587148 /* TCNeuralNetwork.h */,
-				E4AC2F1D1718808200587148 /* TCNeuralNetwork.m */,
+				E4AC2F9E171A363700587148 /* FeedForward */,
 				E4AC2F1E1718808200587148 /* TCTheta.h */,
 				E4AC2F1F1718808200587148 /* TCTheta.m */,
 			);
@@ -107,10 +106,27 @@
 		E4AC2F9C1718D56D00587148 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				E4AC2F9B1718D55F00587148 /* TCNeuralNetworkDelegate.h */,
-				E4AC2F9D1718D61A00587148 /* TCNeuralNetworkTrainingDelegate.h */,
+				E4AC2F9F171A364400587148 /* FeedForward */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		E4AC2F9E171A363700587148 /* FeedForward */ = {
+			isa = PBXGroup;
+			children = (
+				E4AC2F1C1718808200587148 /* TCFeedForwardNetwork.h */,
+				E4AC2F1D1718808200587148 /* TCFeedForwardNetwork.m */,
+			);
+			name = FeedForward;
+			sourceTree = "<group>";
+		};
+		E4AC2F9F171A364400587148 /* FeedForward */ = {
+			isa = PBXGroup;
+			children = (
+				E4AC2F9B1718D55F00587148 /* TCFeedForwardNetworkDelegate.h */,
+				E4AC2F9D1718D61A00587148 /* TCFeedForwardNetworkTrainingDelegate.h */,
+			);
+			name = FeedForward;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,7 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4AC2F221718808200587148 /* TCNeuralNetwork.m in Sources */,
+				E4AC2F221718808200587148 /* TCFeedForwardNetwork.m in Sources */,
 				E4AC2F231718808200587148 /* TCTheta.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +296,7 @@
 				E4AC2F1A1718800100587148 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

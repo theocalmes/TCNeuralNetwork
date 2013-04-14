@@ -9,20 +9,20 @@
 #import <Foundation/Foundation.h>
 
 @class TCTheta;
-@class TCNeuralNetwork;
+@class TCFeedForwardNetwork;
 
-@protocol TCNeuralNetworkDelegate;
-@protocol TCNeuralNetworkTrainingDelegate;
+@protocol TCFeedForwardNetworkDelegate;
+@protocol TCFeedForwardNetworkTrainingDelegate;
 
-@interface TCNeuralNetwork : NSObject
+@interface TCFeedForwardNetwork : NSObject
 
 /** Conform to this delegate if you want to initialize your weights from a pre-trained source.
  */
-@property (weak, nonatomic) id<TCNeuralNetworkDelegate> delegate;
+@property (weak, nonatomic) id<TCFeedForwardNetworkDelegate> delegate;
 
 /** Conform to this delegate if you want to train a neural network.
  */
-@property (weak, nonatomic) id<TCNeuralNetworkTrainingDelegate> trainingDelegate;
+@property (weak, nonatomic) id<TCFeedForwardNetworkTrainingDelegate> trainingDelegate;
 
 /** This property holds the weights which define how your network has interpreted the set of training examples.
  */

@@ -8,7 +8,7 @@
 
 #import <Accelerate/Accelerate.h>
 #import "TCStructs.h"
-#import "TCNeuralNetwork.h"
+#import "TCFeedForwardNetwork.h"
 #import "TCTheta.h"
-#import "TCNeuralNetworkDelegate.h"
-#import "TCNeuralNetworkTrainingDelegate.h"
+#import "TCFeedForwardNetworkDelegate.h"
+#import "TCFeedForwardNetworkTrainingDelegate.h"
