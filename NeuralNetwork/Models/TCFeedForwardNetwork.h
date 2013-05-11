@@ -1,6 +1,5 @@
 //
 //  TCNeuralNetwork.h
-//  NeuralNetworks_TEST
 //
 //  Created by Theodore Calmes on 11/18/12.
 //  Copyright (c) 2012 Theodore Calmes. All rights reserved.
@@ -30,7 +29,7 @@
 
 /** Initializer which takes in an array of NSNumber integers. Eeach number represents a layer in the network, you need to provide atleast two numbers.
  @param neuronLayers This array represents the layers in your neural network. @[@100, @25, @10] would represent a network with 100 input units, 10 output units and 25 hidden layer units.
- @return A TCNeuralNetwork object.
+ @return A TCFeedForwardNetwork object.
  */
 - (id)initWithLayers:(NSArray *)neuronLayers;
 
@@ -40,7 +39,12 @@
  */
 - (float)classifyInput:(float *)input;
 
+/** Call this method to load the data for your delegate. Depending on how you data is stored this could be a costly operation and should not be run on the main thread.
+ */
 - (void)loadDelegateData;
+
+/** Runs gradient descent until either the cost difference reaches the threshold or the max number of iterations is reached.
+ */
 - (void)trainNetwork;
 
 @end

@@ -8,6 +8,11 @@
 
 #define tci(l,i,j) TCIndexMake(l,i,j)
 
+double randomRange(double low, double high)
+{
+    return ((double)arc4random() / 0x100000000) * (high - low) + low;
+}
+
 typedef struct TCDimension
 {
     NSInteger rows;

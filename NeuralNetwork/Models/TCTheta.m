@@ -8,12 +8,6 @@
 
 #import "NeuralNetwork.h"
 
-#define ARC4RANDOM_MAX 0x100000000
-double randomRange(double low, double high)
-{
-    return ((double)arc4random() / ARC4RANDOM_MAX) * (high - low) + low;
-}
-
 TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
 {
     return DimensionMake(unitsInNextLayer, unitsInLayer + 1);
@@ -40,12 +34,18 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
         
         TCDimension WlDim = layerDimention([layers[l] integerValue], [layers[l+1] integerValue]);
 
-        float *Wl = (float *)calloc(WlDim.cols * WlDim.rows, sizeof(float));
-        _weights[l] = Wl;
+        _weights[l] = (float *)calloc(WlDim.cols * WlDim.rows, sizeof(float));
     }
     _layerUnits[layers.count - 1] = [layers.lastObject integerValue];
 
     return self;
+}
+
+- (TCDimension)dimensionForLayer:(NSInteger)layer
+{
+    if (layer >= self.layers.count) return DimensionMake(0, 0);
+
+    return layerDimention(self.layerUnits[layer], self.layerUnits[layer + 1]);
 }
 
 - (void)randomizeValuesWithEpsilon:(float)epsilon
@@ -70,13 +70,6 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     return self.weights[index.l][index.i * WlDim.cols + index.j];
 }
 
-- (TCDimension)dimensionForLayer:(NSInteger)layer
-{
-    if (layer >= self.layers.count) return DimensionMake(0, 0);
-
-    return layerDimention(self.layerUnits[layer], self.layerUnits[layer + 1]);
-}
-
 #pragma mark - Matrix Math
 
 - (void)addMatrix:(float *)matrix scaleBy:(float)scale toLayer:(NSInteger)l
@@ -84,10 +77,10 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     TCDimension WlDim = layerDimention(self.layerUnits[l], self.layerUnits[l + 1]);
     NSInteger length = WlDim.cols * WlDim.rows;
 
-    float *scaled __attribute__ ((aligned)) = (float *)calloc(length, sizeof(float));
+    float *scaled __attribute__ ((aligned)) = malloc(sizeof(float) * length);
     vDSP_vsmul(matrix, 1, &scale, scaled, 1, length);
 
-    vDSP_vadd(self.weights[l], 1, scaled, 1, self.weights[l], 1, length);
+    vDSP_vadd(_weights[l], 1, scaled, 1, _weights[l], 1, length);
 
     free(scaled);
 }
@@ -97,20 +90,20 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     TCDimension WlDim = layerDimention(self.layerUnits[l], self.layerUnits[l + 1]);
     NSInteger length = WlDim.cols * WlDim.rows;
 
-    vDSP_vadd(self.weights[l], 1, matrix, 1, self.weights[l], 1, length);
+    vDSP_vadd(_weights[l], 1, matrix, 1, _weights[l], 1, length);
 
     free(matrix);
 }
 
 - (void)addTheta:(TCTheta *)theta
 {
-    for (NSInteger l=0; l<self.layers.count-1; l++) {
+    for (NSInteger l = 0; l < self.layers.count-1; l++) {
         [self addMatrix:theta.weights[l] toLayer:l];
     }
 }
 - (void)addTheta:(TCTheta *)theta multipliedByScalar:(float)alpha
 {
-    for (NSInteger l=0; l<self.layers.count-1; l++) {
+    for (NSInteger l = 0; l < self.layers.count-1; l++) {
         [self addMatrix:theta.weights[l] scaleBy:alpha toLayer:l];
     }
 }
@@ -119,7 +112,7 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
 
 - (void)mapToIndices:(void (^)(TCIndex))block
 {
-    for (NSInteger l = 0; l < self.layers.count - 1; l++) {
+    for (NSInteger l = 0; l < self.layers.count-1; l++) {
         TCDimension WlDim = layerDimention([self.layers[l] integerValue], [self.layers[l+1] integerValue]);
         for (NSInteger i = 0; i < WlDim.rows; i++) {
             for (NSInteger j = 0; j < WlDim.cols; j++) {
@@ -150,7 +143,7 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
 
 - (void)dealloc
 {
-    for (NSInteger l=0; l<_layers.count-1; l++) {
+    for (NSInteger l = 0; l < _layers.count-1; l++) {
         free(_weights[l]);
     }
     free(_weights);
@@ -170,12 +163,12 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     NSInteger *temp = (NSInteger *)[layerUnitsData bytes];
     
     _layerUnits = (NSInteger *)calloc(_layers.count, sizeof(NSInteger));
-    for(unsigned char l=0; l<_layers.count; l++) {
+    for(unsigned char l = 0; l < _layers.count; l++) {
         _layerUnits[l] = temp[l];
     }
 
     _weights = (float **)calloc(_layers.count - 1, sizeof(float *));
-    for (NSInteger l=0; l<_layers.count-1; l++) {
+    for (NSInteger l = 0; l < _layers.count-1; l++) {
         NSString *key = [NSString stringWithFormat:@"w_%d", l];
         TCDimension WlDim = [self dimensionForLayer:l];
 
@@ -184,7 +177,7 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
         NSData *WlData = [aDecoder decodeObjectForKey:key];
         float *temp = (float *)[WlData bytes];
 
-        for(NSInteger k=0; k<WlDim.rows*WlDim.cols; k++) {
+        for(NSInteger k = 0; k < WlDim.rows*WlDim.cols; k++) {
             Wl[k] = temp[k];
         }
 
@@ -199,7 +192,7 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     [aCoder encodeObject:self.layers forKey:@"layers"];
     [aCoder encodeObject:[NSData dataWithBytes:(void *)self.layerUnits length:self.layers.count*sizeof(NSInteger)] forKey:@"layerUnits"];
 
-    for (NSInteger l=0; l<self.layers.count-1; l++) {
+    for (NSInteger l = 0; l < self.layers.count-1; l++) {
         NSString *key = [NSString stringWithFormat:@"w_%d", l];
         TCDimension WlDim = [self dimensionForLayer:l];
         NSInteger length = WlDim.cols * WlDim.rows * sizeof(float);

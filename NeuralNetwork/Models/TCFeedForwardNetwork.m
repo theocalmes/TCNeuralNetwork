@@ -8,35 +8,32 @@
 
 #import "NeuralNetwork.h"
 
+#pragma mark - Computation
+
 float sigmoid(float z)
 {
-    return (1.0/(1.0+expf(-z)));
+    return 1.0/(1.0 + expf(-z));
 }
 
-float gradSigmoid(float z)
-{
-    return sigmoid(z)*(1.0-sigmoid(z));
-}
-
-float gradient_activity(float a)
+float gradientActivity(float a)
 {
     return a*(1.0-a);
 }
 
-float *forwardPropagate(float *aj, TCTheta *theta, NSInteger l)
+float *forwardPropagate(float *al, TCTheta *theta, NSInteger l)
 {
     TCDimension WlDim = [theta dimensionForLayer:l];
-    int M = WlDim.rows;
-    int N = WlDim.cols;
+    NSInteger M = WlDim.rows;
+    NSInteger N = WlDim.cols;
 
-    float *a __attribute__ ((aligned)) = (float *)calloc(N, sizeof(float));
+    float *a = (float *)calloc(N, sizeof(float));
     a[0] = 1.0;
-    for (int i=1; i<N; ++i) a[i] = aj[i-1];
+    vDSP_vadd(&a[1], 1, al, 1, &a[1], 1, N-1);
 
-    float *next __attribute__ ((aligned)) = (float *)calloc(M, sizeof(float));
+    float *next = malloc(M * sizeof(float));
     vDSP_mmul(theta.weights[l], 1, a, 1, next, 1, M, 1, N);
 
-    for (int i=0; i<M; ++i)
+    for (NSInteger i = 0; i < M; ++i)
         next[i] = sigmoid(next[i]);
 
     free(a);
@@ -47,18 +44,19 @@ float *forwardPropagate(float *aj, TCTheta *theta, NSInteger l)
 float *computeDelta(float *a, float *nextDelta, TCTheta *theta, NSInteger l)
 {
     TCDimension WlDim = [theta dimensionForLayer:l];
-    int M = WlDim.rows;
-    int N = WlDim.cols;
+    NSInteger M = WlDim.rows;
+    NSInteger N = WlDim.cols;
 
-    float *transposed __attribute__ ((aligned))  = (float*)calloc(N*M, sizeof(float));
+    float *transposed = malloc(N * M * sizeof(float));
     vDSP_mtrans(theta.weights[l], 1, transposed, 1, N, M);
 
-    float *product __attribute__ ((aligned)) = (float*)calloc(N, sizeof(float));
+    float *product = malloc(N * sizeof(float));
     vDSP_mmul(transposed, 1, nextDelta, 1, product, 1, N, 1, M);
 
-    float *delta __attribute__ ((aligned)) = (float*)calloc(N-1, sizeof(float));
+    float *delta = malloc((N-1) * sizeof(float));
 
-    for (int i=1; i<N; ++i) delta[i-1] = product[i] * gradient_activity(a[i-1]);
+    for (NSInteger i = 1; i < N; ++i)
+        delta[i-1] = product[i] * gradientActivity(a[i-1]);
 
     free(transposed);
     free(product);
@@ -69,31 +67,29 @@ float *computeDelta(float *a, float *nextDelta, TCTheta *theta, NSInteger l)
 void updateThetaGradient(TCTheta **theta, NSInteger l, float *al, float *deltaNext)
 {
     TCDimension WlDim = [*theta dimensionForLayer:l];
-    int M = WlDim.rows;
-    int N = WlDim.cols;
+    NSInteger M = WlDim.rows;
+    NSInteger N = WlDim.cols;
 
-    float *a __attribute__ ((aligned)) = (float *)calloc(N, sizeof(float));
+    float *a = (float *)calloc(N, sizeof(float));
     a[0] = 1.0;
-    for (int i=1; i<N; i++) a[i] = al[i-1];
-    
-    float *transposed __attribute__ ((aligned)) = (float *)calloc(N, sizeof(float));
-    vDSP_mtrans(a, 1, transposed, 1, 1, N);
+    vDSP_vadd(&a[1], 1, al, 1, &a[1], 1, N-1);
 
-    float *product __attribute__ ((aligned)) = (float *)calloc(M*N, sizeof(float));
-    vDSP_mmul(deltaNext, 1, transposed, 1, product, 1, M, N, 1);
+    float *product = (float *)calloc(M * N, sizeof(float));
+    vDSP_mmul(deltaNext, 1, a, 1, product, 1, M, N, 1);
 
-    free(transposed);
     free(a);
     
     [*theta addMatrix:product toLayer:l];
 }
 
-NSInteger *labelArray(float label, NSInteger total)
+float *labelArray(float label, NSInteger total)
 {
-    NSInteger *array = (NSInteger *)calloc(total, sizeof(NSInteger));
+    float *array = (float *)calloc(total, sizeof(float));
     array[(NSInteger)label] = 1;
     return array;
 }
+
+#pragma mark - Init
 
 @interface TCFeedForwardNetwork ()
 @property (strong, readwrite, nonatomic) TCTheta *weights;
@@ -116,7 +112,7 @@ NSInteger *labelArray(float label, NSInteger total)
 
 - (id)initWithLayers:(NSArray *)neuronLayers
 {
-    self = [super self];
+    self = [super init];
     if (self) {
         _weights = [[TCTheta alloc] initWithLayers:neuronLayers];
         [_weights randomizeValuesWithEpsilon:0.12];
@@ -192,16 +188,16 @@ NSInteger *labelArray(float label, NSInteger total)
 {
     float **a = (float **)calloc(L, sizeof(float *));
     a[0] = input;
-    for (int l=1; l<L; l++) {
+    for (NSInteger l = 1; l < L; l++) {
         a[l] = forwardPropagate(a[l-1], self.weights, l-1);
     }
 
     if (self.weights.layerUnits[L-1] == 1) {
         float returnValue = a[L-1][0];
-        for (int i=1; i<L; i++) {
+        for (NSInteger i = 1; i < L; i++) {
             free(a[i]);
         }
-        free(a)
+        free(a);
 
         return returnValue;
     }
@@ -209,7 +205,7 @@ NSInteger *labelArray(float label, NSInteger total)
     float max = -FLT_MAX;
     NSInteger maxIndex = 0;
 
-    for (NSInteger k=0; k<self.weights.layerUnits[L-1]; k++) {
+    for (NSInteger k = 0; k < self.weights.layerUnits[L-1]; k++) {
         float value = a[L-1][k];
         if (value > max) {
             max = value;
@@ -217,10 +213,10 @@ NSInteger *labelArray(float label, NSInteger total)
         }
     }
 
-    for (int i=1; i<L; i++) {
+    for (NSInteger i = 1; i < L; i++) {
         free(a[i]);
     }
-    free(a)
+    free(a);
 
     return maxIndex;
 }
@@ -232,49 +228,50 @@ NSInteger *labelArray(float label, NSInteger total)
     float J = 0.0;
     TCTheta *thetaGrad = [[TCTheta alloc] initWithLayers:self.weights.layers];
 
-    for (int n=0; n<m; n++) {
+    for (NSInteger n = 0; n < m; n++) {
 
         // Forward Propagate
         float **a = (float **)calloc(L, sizeof(float *));
 
         a[0] = X[n];
-        for (int l=1; l<L; l++) {
+        for (NSInteger l = 1; l < L; l++) {
             a[l] = forwardPropagate(a[l-1], self.weights, l-1);
         }
 
         // Calculate Cost J
-        if (numLabels != 1) {
-            NSInteger *temp = labelArray(y[n], numLabels);
-
-            for (int k=0; k<numLabels; k++) {
-                J += -temp[k]*logf(a[L-1][k]) - (1.0 - temp[k])*logf(1.0 - a[L-1][k]);
-            }
-            free(temp);
+        float *temp;
+        if (numLabels > 1) {
+            temp = labelArray(y[n], numLabels);
         }
         else {
-            J += -y[n]*logf(a[L-1][0]) - (1.0 - y[n])*logf(1.0 - a[L-1][0]);
+            temp = (float *)calloc(1, sizeof(float));
+            temp[0] = y[n];
+        }
+
+        for (NSInteger k = 0; k < numLabels; k++) {
+            J += -temp[k]*logf(a[L-1][k]) - (1.0 - temp[k])*logf(1.0 - a[L-1][k]);
         }
 
         // Backpropagate
         float **delta = (float **)calloc(L-1, sizeof(float *));
 
         float *delta_L = (float *)calloc(numLabels, sizeof(float));
-        for (int k=0; k<numLabels; k++)
+        for (NSInteger k = 0; k < numLabels; k++)
             delta_L[k] = a[L-1][k] - temp[k];
 
         delta[L-2] = delta_L;
 
-        for (int l=L-2; l>0; l--) {
+        for (NSInteger l = L-2; l > 0; l--) {
             delta[l-1] = computeDelta(a[l], delta[l], self.weights, l);
         }
 
         // Update Gradient
-        for (int l=0; l<L-1; l++) {
+        for (NSInteger l = 0; l < L-1; l++) {
             updateThetaGradient(&thetaGrad, l, a[l], delta[l]);
         }
 
         // Free memory
-        for (int i=0; i<L; i++) {
+        for (NSInteger i = 0; i < L; i++) {
             if (i != 0) {
                 free(a[i]);
             }
@@ -282,40 +279,49 @@ NSInteger *labelArray(float label, NSInteger total)
                 free(delta[i]);
             }
         }
+        free(temp);
         free(delta);
         free(a);
     }
 
-    // Regularization of J
+    // Regularization of Theta Gradient and Cost
+
+    float **dW = thetaGrad.weights;
+    float **W = _weights.weights;
+
     float sum = 0.0;
-    for (int l=0; l<L-1; l++) {
+    for (NSInteger l = 0; l < L-1; l++) {
+
+        TCDimension WDim = [thetaGrad dimensionForLayer:l];
+        NSInteger size = WDim.rows * WDim.cols;
+
+        float *tempW = malloc(size * sizeof(float));
+
+        float regScale = lambda/m;
+        float avg = 1.0/m;
+
+        vDSP_vsmul(W[l],1, &regScale, tempW, 1, size);
+        vDSP_vsmul(dW[l], 1, &avg, dW[l], 1, size);
+
+        vDSP_vadd(dW[l], 1, tempW, 1, dW[l], 1, size);
 
         float reg = 0.0;
-        TCDimension WDim = [self.weights dimensionForLayer:l];
-        for (NSInteger i=0; i<WDim.rows; i++) {
-            for (NSInteger j=1; j<WDim.cols; j++) {
-                float value = [self.weights weightValueForIndex:tci(l, i, j)];
-                reg += powf(value, 2.0);
-            }
+        vDSP_dotpr(W[l], 1, W[l], 1, &reg, size);
+
+        for (NSInteger i = 0; i < WDim.rows; i++) {
+            dW[l][i * WDim.cols] -= tempW[i * WDim.cols];
+            reg -= powf(W[l][i * WDim.cols], 2);
         }
+
+        free(tempW);
+
         sum += reg;
     }
+    thetaGrad.weights = dW;
 
     J *= (1.0/m);
     J += (lambda/(2.0*m)) * sum;
 
-    // Regularization of Theta Gradient
-    [thetaGrad mapToIndices:^(TCIndex index) {
-
-        float value = [thetaGrad weightValueForIndex:index];
-        value *= (1.0/m);
-        if (index.j >= 1) {
-            value += (lambda/m) * [self.weights weightValueForIndex:index];
-        }
-
-        [thetaGrad setWeightValue:value forIndex:index];
-    }];
-    
     NSDictionary *returnDict = @{@"J": @(J), @"grad" : thetaGrad};
     return returnDict;
 }
@@ -326,7 +332,7 @@ NSInteger *labelArray(float label, NSInteger total)
 
     BOOL feedback = [self.trainingDelegate respondsToSelector:@selector(neuralNetwork:didCompleteTrainingEpoch:withCost:)];
 
-    for (int i=0; i<=maxIterations; i++) {
+    for (NSInteger i = 0; i <= maxIterations; i++) {
 
         NSDictionary *costFun = [self costFunction];
         TCTheta *grad = costFun[@"grad"];

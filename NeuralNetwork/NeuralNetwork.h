@@ -7,8 +7,14 @@
 //
 
 #import <Accelerate/Accelerate.h>
+
 #import "TCStructs.h"
-#import "TCFeedForwardNetwork.h"
 #import "TCTheta.h"
+
+#import "TCFeedForwardNetwork.h"
 #import "TCFeedForwardNetworkDelegate.h"
 #import "TCFeedForwardNetworkTrainingDelegate.h"
+
+#import "TCKohonenNetwork.h"
+#import "TCKohonenNetworkDelegate.h"
+#import "TCKohonenNetworkTrainingDelegate.h"

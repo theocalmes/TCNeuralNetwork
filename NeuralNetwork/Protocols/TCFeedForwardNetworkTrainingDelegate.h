@@ -11,7 +11,7 @@
 @class TCTheta;
 @class TCFeedForwardNetwork;
 
-/** The TCNeuralNetworkTrainingDelegate protocol provides you with methods to load a set of training data for the training process. The protocol also lets you customize the gradient descent parameters and provides methods to get feedback on the networks training.
+/** The TCFeedForwardNetworkTrainingDelegate protocol provides you with methods to load a set of training data for the training process. The protocol also lets you customize the gradient descent parameters and provides methods to get feedback on the networks training.
  
     Note: The data is loaded by calling loadDelegateData on the neural network.
  */
@@ -79,15 +79,16 @@
  */
 - (float)learningParameterForNeuralNetwork:(TCFeedForwardNetwork *)network;
 
-/** Callback for when the training is completed.
- @param network An object representing the neural network request this information.
- */
-- (void)neuralNetworkDidFinishTraining:(TCFeedForwardNetwork *)network;
-
 /** Callback for when the training examples are loaded.
  @param network An object representing the neural network request this information.
  */
 - (void)neuralNetworkDidFinishLoadingTrainingExamples:(TCFeedForwardNetwork *)network;
+
+/** Callback for when the training is completed.
+ @param network An object representing the neural network request this information.
+ @param costValue The cost at the last training step.
+ */
+- (void)neuralNetwork:(TCFeedForwardNetwork *)network didFinishTrainingWithCost:(float)costValue;
 
 /** Callback for when an individual step of gradient descent is completed.
  @param network An object representing the neural network request this information.

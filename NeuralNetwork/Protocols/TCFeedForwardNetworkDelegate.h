@@ -11,7 +11,7 @@
 @class TCTheta;
 @class TCFeedForwardNetwork;
 
-/** The TCNeuralNetworkDelegate protocol provides you with a way to load weights for the network to use. If you implement this function and it returns a nil value, the network will go ahead and initialize itself using random initial values.
+/** The TCFeedForwardNetworkDelegate protocol provides you with a way to load weights for the network to use. If you implement this function and it returns a nil value, the network will go ahead and initialize itself using random initial values.
  */
 @protocol TCFeedForwardNetworkDelegate <NSObject>
 
@@ -19,7 +19,7 @@
 
 /** Asks the delegate for a Theta object for the network to initialize itself with.
 
- Note: loading takes place when calling loadDelegateData from the TCNeuralNetwork object.
+ Note: loading takes place when calling loadDelegateData from the TCFeedForwardNetwork object.
  
  @param network An object representing the neural network request this information.
  @return The weights for the network to initialize with. Default value is random weights.

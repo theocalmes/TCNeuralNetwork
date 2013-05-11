@@ -11,7 +11,7 @@
 
 @interface TCTheta : NSObject <NSCoding>
 
-@property (assign, readonly, nonatomic) float **weights;
+@property (assign, nonatomic) float **weights;
 @property (strong, readonly, nonatomic) NSArray *layers;
 @property (assign, readonly, nonatomic) NSInteger *layerUnits;
 
