@@ -28,8 +28,8 @@
 		E4AC2F9D1718D61A00587148 /* TCFeedForwardNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCFeedForwardNetworkTrainingDelegate.h; path = Protocols/TCFeedForwardNetworkTrainingDelegate.h; sourceTree = "<group>"; };
 		E4C9B86217374A9300CE85B0 /* TCKohonenNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCKohonenNetwork.h; sourceTree = "<group>"; };
 		E4C9B86317374A9300CE85B0 /* TCKohonenNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCKohonenNetwork.m; sourceTree = "<group>"; };
-		E4C9B8661737F27B00CE85B0 /* TCKohonenNetworkTrainingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCKohonenNetworkTrainingDelegate.h; sourceTree = "<group>"; };
-		E4C9B8671737F28C00CE85B0 /* TCKohonenNetworkDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCKohonenNetworkDelegate.h; sourceTree = "<group>"; };
+		E4CD0106173E2CBA0029B7CE /* TCKohonenNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCKohonenNetworkDelegate.h; path = Protocols/TCKohonenNetworkDelegate.h; sourceTree = "<group>"; };
+		E4CD0107173E2CBA0029B7CE /* TCKohonenNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCKohonenNetworkTrainingDelegate.h; path = Protocols/TCKohonenNetworkTrainingDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +140,8 @@
 		E4C9B8651737F1FB00CE85B0 /* Kohonen */ = {
 			isa = PBXGroup;
 			children = (
-				E4C9B8671737F28C00CE85B0 /* TCKohonenNetworkDelegate.h */,
-				E4C9B8661737F27B00CE85B0 /* TCKohonenNetworkTrainingDelegate.h */,
+				E4CD0106173E2CBA0029B7CE /* TCKohonenNetworkDelegate.h */,
+				E4CD0107173E2CBA0029B7CE /* TCKohonenNetworkTrainingDelegate.h */,
 			);
 			name = Kohonen;
 			sourceTree = "<group>";
