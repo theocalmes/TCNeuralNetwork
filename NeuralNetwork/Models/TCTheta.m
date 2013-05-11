@@ -10,7 +10,7 @@
 
 TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
 {
-    return DimensionMake(unitsInNextLayer, unitsInLayer + 1);
+    return TCDimensionMake(unitsInNextLayer, unitsInLayer + 1);
 }
 
 @interface TCTheta ()
@@ -43,7 +43,7 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
 
 - (TCDimension)dimensionForLayer:(NSInteger)layer
 {
-    if (layer >= self.layers.count) return DimensionMake(0, 0);
+    if (layer >= self.layers.count) return TCDimensionMake(0, 0);
 
     return layerDimention(self.layerUnits[layer], self.layerUnits[layer + 1]);
 }

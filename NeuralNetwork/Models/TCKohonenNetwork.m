@@ -14,7 +14,7 @@ void deallocNeuron(Neuron neuron)
     free(index);
 }
 
-Neuron newNeuron(float *index, NSInteger indexLength, NSInteger weightsLength)
+Neuron newNeuron(float *index, NSInteger indexLength, NSInteger weightsLength, TCRandomRange range)
 {
     Neuron new;
     new.index = index;
@@ -23,7 +23,7 @@ Neuron newNeuron(float *index, NSInteger indexLength, NSInteger weightsLength)
     new.weights = malloc(weightsLength * sizeof(float));
 
     for (NSInteger i = 0; i < weightsLength; i++) {
-        new.weights[i] = randomRange(0, 1);
+        new.weights[i] = randomRange(range);
     }
 
     return new;
@@ -100,7 +100,7 @@ float decay(float a0, float t0, float t)
 
 #pragma mark - Topology Setup
 
-- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height
+- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height randomRange:(TCRandomRange)range
 {
     N = width * height;
     neurons = malloc(N * sizeof(Neuron));
@@ -113,13 +113,13 @@ float decay(float a0, float t0, float t)
             index[0] = i;
             index[1] = j;
 
-            neurons[count] = newNeuron(index, 2, M);
+            neurons[count] = newNeuron(index, 2, M, range);
             count++;
         }
     }
 }
 
-- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth
+- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth randomRange:(TCRandomRange)range
 {
     N = width * height * depth;
     neurons = malloc(N * sizeof(Neuron));
@@ -134,20 +134,20 @@ float decay(float a0, float t0, float t)
                 index[1] = j;
                 index[2] = k;
 
-                neurons[count] = newNeuron(index, 3, M);
+                neurons[count] = newNeuron(index, 3, M, range);
                 count++;
             }
         }
     }
 }
 
-- (void)setupNeuronsUsingCustomTopologyWithIndices:(float **)indices indexSize:(NSInteger)size numberOfNeurons:(NSInteger)neuronCount
+- (void)setupNeuronsUsingCustomTopologyWithIndices:(float **)indices indexSize:(NSInteger)size numberOfNeurons:(NSInteger)neuronCount randomRange:(TCRandomRange)range
 {
     N = neuronCount;
     neurons = malloc(N * sizeof(Neuron));
 
     for (NSInteger i = 0; i < N; i++) {
-        neurons[i] = newNeuron(indices[i], size, M);
+        neurons[i] = newNeuron(indices[i], size, M, range);
     }
 }
 

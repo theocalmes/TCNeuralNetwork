@@ -9,6 +9,8 @@
 #import <Accelerate/Accelerate.h>
 
 #import "TCStructs.h"
+#import "TCFunctions.h"
+
 #import "TCTheta.h"
 
 #import "TCFeedForwardNetwork.h"
