@@ -8,8 +8,6 @@
 
 #define tci(l,i,j) TCIndexMake(l,i,j)
 
-#define tci(l,i,j) TCIndexMake(l,i,j)
-
 typedef struct TCRandomRange
 {
     float low;
