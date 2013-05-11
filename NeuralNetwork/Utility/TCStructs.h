@@ -8,9 +8,15 @@
 
 #define tci(l,i,j) TCIndexMake(l,i,j)
 
-double randomRange(double low, double high)
+typedef struct TCRandomRange
 {
-    return ((double)arc4random() / 0x100000000) * (high - low) + low;
+    float low;
+    float high;
+} TCRandomRange;
+
+static TCRandomRange TCRandomRangeMake(float low, float high)
+{
+    TCRandomRange range; range.low = low; range.high = high; return range;
 }
 
 typedef struct TCDimension
@@ -19,7 +25,7 @@ typedef struct TCDimension
     NSInteger cols;
 } TCDimension;
 
-static TCDimension DimensionMake(int rows, int cols)
+static TCDimension TCDimensionMake(int rows, int cols)
 {
     TCDimension dim; dim.rows = rows; dim.cols = cols; return dim;
 }

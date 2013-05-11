@@ -29,8 +29,8 @@
 		E4C9B86317374A9300CE85B0 /* TCKohonenNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCKohonenNetwork.m; sourceTree = "<group>"; };
 		E4CD0106173E2CBA0029B7CE /* TCKohonenNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCKohonenNetworkDelegate.h; path = Protocols/TCKohonenNetworkDelegate.h; sourceTree = "<group>"; };
 		E4CD0107173E2CBA0029B7CE /* TCKohonenNetworkTrainingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCKohonenNetworkTrainingDelegate.h; path = Protocols/TCKohonenNetworkTrainingDelegate.h; sourceTree = "<group>"; };
-		E4CD0132173EBF460029B7CE /* TCStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStructs.h; sourceTree = "<group>"; };
 		E4CD0134173EBF660029B7CE /* TCFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TCFunctions.h; path = NeuralNetwork/Utility/TCFunctions.h; sourceTree = SOURCE_ROOT; };
+		E4CD013F173ECFC80029B7CE /* TCStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCStructs.h; path = NeuralNetwork/Utility/TCStructs.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 		E4CD0133173EBF4D0029B7CE /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				E4CD0132173EBF460029B7CE /* TCStructs.h */,
+				E4CD013F173ECFC80029B7CE /* TCStructs.h */,
 				E4CD0134173EBF660029B7CE /* TCFunctions.h */,
 			);
 			name = Utility;
