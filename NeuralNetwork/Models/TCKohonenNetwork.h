@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TCStructs.h"
 
 @protocol TCKohonenNetworkDelegate;
 @protocol TCKohonenNetworkTrainingDelegate;
@@ -27,11 +28,12 @@ typedef struct Neuron {
 
 - (void)setLearningRate:(float)klR0 learningDecay:(float)klRT neighbourhoodSize:(float)knS0 sizeDecay:(float)knST;
 
-- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height;
-- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth;
+- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height randomRange:(TCRange)range;
+- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth randomRange:(TCRange)range;
 - (void)setupNeuronsUsingCustomTopologyWithIndices:(float **)indices indexSize:(NSInteger)size numberOfNeurons:(NSInteger)neuronCount;
 
 - (void)loadDelegateData;
 - (void)trainNetwork;
+- (void)trainNetworkForTimeRange:(TCRange)timeRange;
 
 @end

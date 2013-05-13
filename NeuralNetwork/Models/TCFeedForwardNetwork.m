@@ -115,7 +115,7 @@ float *labelArray(float label, NSInteger total)
     self = [super init];
     if (self) {
         _weights = [[TCTheta alloc] initWithLayers:neuronLayers];
-        [_weights randomizeValuesWithEpsilon:0.12];
+        [_weights randomizeValuesWithRange:TCRangeMake(-0.12, 0.12)];
 
         L = neuronLayers.count;
         numLabels = [neuronLayers.lastObject integerValue];

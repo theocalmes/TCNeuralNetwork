@@ -48,10 +48,10 @@ TCDimension layerDimention(NSInteger unitsInLayer, NSInteger unitsInNextLayer)
     return layerDimention(self.layerUnits[layer], self.layerUnits[layer + 1]);
 }
 
-- (void)randomizeValuesWithEpsilon:(float)epsilon
+- (void)randomizeValuesWithRange:(TCRange)range
 {
     [self mapToIndices:^(TCIndex index) {
-        float rand = (float)randomRange(-epsilon, epsilon);
+        float rand = (float)randomRange(range);
         [self setWeightValue:rand forIndex:index];
     }];
 }

@@ -88,7 +88,7 @@
  @param network An object representing the neural network request this information.
  @param costValue The cost at the last training step.
  */
-- (void)neuralNetwork:(TCFeedForwardNetwork *)network didFinishTrainingWithCost:(float)costValue;
+- (void)neuralNetworkDidFinishTraining:(TCFeedForwardNetwork *)network;
 
 /** Callback for when an individual step of gradient descent is completed.
  @param network An object representing the neural network request this information.

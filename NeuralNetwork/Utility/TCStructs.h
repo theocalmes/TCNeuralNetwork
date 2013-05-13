@@ -8,15 +8,15 @@
 
 #define tci(l,i,j) TCIndexMake(l,i,j)
 
-typedef struct TCRandomRange
+typedef struct TCRange
 {
     float low;
     float high;
-} TCRandomRange;
+} TCRange;
 
-static TCRandomRange TCRandomRangeMake(float low, float high)
+static TCRange TCRangeMake(float low, float high)
 {
-    TCRandomRange range; range.low = low; range.high = high; return range;
+    TCRange range; range.low = low; range.high = high; return range;
 }
 
 typedef struct TCDimension

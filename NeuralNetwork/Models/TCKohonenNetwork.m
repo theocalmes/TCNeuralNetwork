@@ -11,10 +11,10 @@
 void deallocNeuron(Neuron neuron)
 {
     free(neuron.weights);
-    free(index);
+    free(neuron.index);
 }
 
-Neuron newNeuron(float *index, NSInteger indexLength, NSInteger weightsLength, TCRandomRange range)
+Neuron newNeuron(float *index, NSInteger indexLength, NSInteger weightsLength, TCRange range)
 {
     Neuron new;
     new.index = index;
@@ -53,6 +53,8 @@ float lateralDistance(Neuron n1, Neuron n2)
     float *diff = malloc(len * sizeof(float));
     vDSP_vsub(n1.index, 1, n2.index, 1, diff, 1, len);
     vDSP_dotpr(diff, 1, diff, 1, &val, len);
+
+    free(diff);
 
     return val;
 }
@@ -100,7 +102,7 @@ float decay(float a0, float t0, float t)
 
 #pragma mark - Topology Setup
 
-- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height randomRange:(TCRandomRange)range
+- (void)setupNeuronsUsing2DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height randomRange:(TCRange)range
 {
     N = width * height;
     neurons = malloc(N * sizeof(Neuron));
@@ -119,7 +121,7 @@ float decay(float a0, float t0, float t)
     }
 }
 
-- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth randomRange:(TCRandomRange)range
+- (void)setupNeuronsUsing3DGridTopologyWithWidth:(NSInteger)width height:(NSInteger)height depth:(NSInteger)depth randomRange:(TCRange)range
 {
     N = width * height * depth;
     neurons = malloc(N * sizeof(Neuron));
@@ -141,7 +143,7 @@ float decay(float a0, float t0, float t)
     }
 }
 
-- (void)setupNeuronsUsingCustomTopologyWithIndices:(float **)indices indexSize:(NSInteger)size numberOfNeurons:(NSInteger)neuronCount randomRange:(TCRandomRange)range
+- (void)setupNeuronsUsingCustomTopologyWithIndices:(float **)indices indexSize:(NSInteger)size numberOfNeurons:(NSInteger)neuronCount randomRange:(TCRange)range
 {
     N = neuronCount;
     neurons = malloc(N * sizeof(Neuron));
@@ -257,14 +259,16 @@ float decay(float a0, float t0, float t)
         [self loadTrainingSet];
 }
 
-
-- (void)trainNetwork
+- (void)trainNetworkForTimeRange:(TCRange)timeRange
 {
     if (!self.trainingDelegate) return;
 
     BOOL feedback = [self.trainingDelegate respondsToSelector:@selector(neuralNetwork:didCompleteTrainingEpoch:winningIndex:)];
 
-    for (NSInteger t = 0; t < maxIterations; t++) {
+    NSInteger start = (NSInteger)timeRange.low;
+    NSInteger end = (NSInteger)timeRange.high;
+    
+    for (NSInteger t = start; t < end; t++) {
 
         NSInteger randIndex = arc4random() % numSamples;
         Neuron winner = [self winningNeuronForInput:samples[randIndex]];
@@ -274,10 +278,19 @@ float decay(float a0, float t0, float t)
         if (feedback)
             [self.trainingDelegate neuralNetwork:self didCompleteTrainingEpoch:t winningIndex:winner.index];
     }
+}
+
+- (void)trainNetwork
+{
+    if (!self.trainingDelegate) return;
+
+    [self trainNetworkForTimeRange:TCRangeMake(0, maxIterations)];
     
     if ([self.trainingDelegate respondsToSelector:@selector(neuralNetworkdidFinishTraining:)])
         [self.trainingDelegate neuralNetworkdidFinishTraining:self];
 }
+
+
 
 
 

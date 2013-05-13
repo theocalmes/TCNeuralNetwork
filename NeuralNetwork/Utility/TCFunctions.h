@@ -8,7 +8,7 @@
 
 #import "TCStructs.h"
 
-static double randomRange(TCRandomRange range)
+static double randomRange(TCRange range)
 {
     return ((double)arc4random() / 0x100000000) * (range.high - range.low) + range.low;
 }

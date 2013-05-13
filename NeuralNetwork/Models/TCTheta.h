@@ -16,7 +16,7 @@
 @property (assign, readonly, nonatomic) NSInteger *layerUnits;
 
 - (id)initWithLayers:(NSArray *)layers;
-- (void)randomizeValuesWithEpsilon:(float)epsilon;
+- (void)randomizeValuesWithRange:(TCRange)range;
 
 - (void)setWeightValue:(float)value forIndex:(TCIndex)index;
 - (float)weightValueForIndex:(TCIndex)index;
