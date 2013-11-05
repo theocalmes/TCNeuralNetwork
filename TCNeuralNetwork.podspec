@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 	s.license	= 'MIT'
 	s.author 	= {"Theodore Calmes" => "theo@thoughtbot.com"}
 	s.source    = { 
-    	:git => "https://github.com/theocalmes/TCNeuralNetwork.git", tag => "0.0.2"
+    	:git => "https://github.com/theocalmes/TCNeuralNetwork.git", :tag => "0.0.2"
   	}
   	s.source_files = 'NeuralNetwork/**/*.{m,h}'
 	s.requires_arc = true
