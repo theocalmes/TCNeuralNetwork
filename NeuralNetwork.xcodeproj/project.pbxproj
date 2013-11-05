@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E42CCE381829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = E42CCE371829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.m */; };
 		E4AC2F011718800100587148 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AC2F001718800100587148 /* Foundation.framework */; };
 		E4AC2F221718808200587148 /* TCFeedForwardNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AC2F1D1718808200587148 /* TCFeedForwardNetwork.m */; };
 		E4AC2F231718808200587148 /* TCTheta.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AC2F1F1718808200587148 /* TCTheta.m */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E42CCE361829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFeedForwardNeuralNetworkTrainingParameters.h; sourceTree = "<group>"; };
+		E42CCE371829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCFeedForwardNeuralNetworkTrainingParameters.m; sourceTree = "<group>"; };
 		E4AC2EFB1718800100587148 /* NeuralNetwork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeuralNetwork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AC2F001718800100587148 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4AC2F1C1718808200587148 /* TCFeedForwardNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFeedForwardNetwork.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		E4AC2F9E171A363700587148 /* FeedForward */ = {
 			isa = PBXGroup;
 			children = (
+				E42CCE361829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.h */,
+				E42CCE371829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.m */,
 				E4AC2F1C1718808200587148 /* TCFeedForwardNetwork.h */,
 				E4AC2F1D1718808200587148 /* TCFeedForwardNetwork.m */,
 			);
@@ -213,6 +218,7 @@
 			files = (
 				E4AC2F221718808200587148 /* TCFeedForwardNetwork.m in Sources */,
 				E4AC2F231718808200587148 /* TCTheta.m in Sources */,
+				E42CCE381829B93900835983 /* TCFeedForwardNeuralNetworkTrainingParameters.m in Sources */,
 				E4C9B86417374A9300CE85B0 /* TCKohonenNetwork.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
