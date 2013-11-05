@@ -9,6 +9,7 @@
 
 @class TCTheta;
 @class TCFeedForwardNetwork;
+@class TCFeedForwardNeuralNetworkTrainingParameters;
 
 @protocol TCFeedForwardNetworkDelegate;
 @protocol TCFeedForwardNetworkTrainingDelegate;
@@ -22,6 +23,8 @@
 /** Conform to this delegate if you want to train a neural network.
  */
 @property (weak, nonatomic) id<TCFeedForwardNetworkTrainingDelegate> trainingDelegate;
+
+@property (strong, nonatomic) TCFeedForwardNeuralNetworkTrainingParameters *trainer;
 
 /** This property holds the weights which define how your network has interpreted the set of training examples.
  */

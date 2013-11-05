@@ -145,25 +145,19 @@ float *labelArray(float label, NSInteger total)
 
 - (void)loadTrainingSet
 {
-    X = [self.trainingDelegate trainingInputExamplesForNeuralNetwork:self];
-    y = [self.trainingDelegate trainingOutputExamplesForNeuralNetwork:self];
+    if (!self.trainer) {
+        return;
+    }
 
-    m = [self.trainingDelegate numberOfTrainingExamplesForNeuralNetwork:self];
+    X = [self.trainer trainingInputExamples];
+    y = [self.trainer trainingOutputExamples];
 
-    if ([self.trainingDelegate respondsToSelector:@selector(regularizationParameterForNeuralNetwork:)])
-        lambda = [self.trainingDelegate regularizationParameterForNeuralNetwork:self];
+    m = [self.trainer numberOfTrainingExamples];
 
-    if ([self.trainingDelegate respondsToSelector:@selector(maxIterationsForNeuralNetwork:)])
-        maxIterations = [self.trainingDelegate maxIterationsForNeuralNetwork:self];
-
-    if ([self.trainingDelegate respondsToSelector:@selector(stopEpsilonForNeuralNetwork:)])
-        stopEpsilon = [self.trainingDelegate stopEpsilonForNeuralNetwork:self];
-
-    if ([self.trainingDelegate respondsToSelector:@selector(learningParameterForNeuralNetwork:)])
-        learningParam = [self.trainingDelegate learningParameterForNeuralNetwork:self];
-
-    if ([self.trainingDelegate respondsToSelector:@selector(neuralNetworkDidFinishLoadingTrainingExamples:)])
-        [self.trainingDelegate neuralNetworkDidFinishLoadingTrainingExamples:self];
+    lambda = self.trainer.regularizationParameter;
+    learningParam = self.trainer.learningRate;
+    maxIterations = self.trainer.maxNumberOfIterations;
+    stopEpsilon = self.trainer.stopEpsilon;
 }
 
 #pragma mark - Public Methods
@@ -345,7 +339,7 @@ float *labelArray(float label, NSInteger total)
             [self.trainingDelegate neuralNetwork:self didCompleteTrainingEpoch:i withCost:newJ];
         }
 
-        if (fabs(newJ - oldJ) <= stopEpsilon)
+        if (fabs(newJ - oldJ) <= stopEpsilon || newJ != newJ)
             break;
         oldJ = newJ;
     }

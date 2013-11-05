@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5C2BF568-BB30-4822-84C1-CDB5056888B1</string>
+	<key>IDESourceControlProjectName</key>
+	<string>NeuralNetwork</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1855CA7A-202A-4B97-8E5E-CDA32B6449DC</key>
+		<string>ssh://github.com/theocalmes/TCNeuralNetwork.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NeuralNetwork.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1855CA7A-202A-4B97-8E5E-CDA32B6449DC</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/theocalmes/TCNeuralNetwork.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1855CA7A-202A-4B97-8E5E-CDA32B6449DC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1855CA7A-202A-4B97-8E5E-CDA32B6449DC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>NeuralNetwork</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -14,6 +14,7 @@
 #import "TCTheta.h"
 
 #import "TCFeedForwardNetwork.h"
+#import "TCFeedForwardNeuralNetworkTrainingParameters.h"
 #import "TCFeedForwardNetworkDelegate.h"
 #import "TCFeedForwardNetworkTrainingDelegate.h"
 
